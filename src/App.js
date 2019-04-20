@@ -1,10 +1,14 @@
 import React, { Component } from "react";
+import { Router } from "@reach/router";
+import AddSong from "./components/AddSong/AddSong";
+import ListSong from "./components/ListSong/ListSong";
 import "rsuite/dist/styles/rsuite.min.css";
 import "./App.css";
 
 import { Icon } from "rsuite";
 
 import Sidebar from "./components/Sidebar";
+import MainMenu from "./components/MainMenu";
 
 class App extends Component {
   constructor(props) {
@@ -32,7 +36,11 @@ class App extends Component {
           size="2x"
         />
         <div id="main-app">
-          <h1>Hey</h1>
+          <Router>
+            <MainMenu path="/" />
+            <AddSong path="/add-song" />
+            <ListSong path="/list" />
+          </Router>
         </div>
       </div>
     );

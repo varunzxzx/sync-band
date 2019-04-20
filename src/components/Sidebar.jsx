@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import { Link, navigate } from "@reach/router";
 import { Sidenav, Nav, Icon } from "rsuite";
+import logo from "../logo.svg";
 
 const navs = [
   {
@@ -25,10 +27,19 @@ const navs = [
 class Sidebar extends Component {
   renderNavItems = () => {
     return navs.map(nav => (
-      <Nav.Item key={nav.key} icon={<Icon icon={nav.icon} />}>
+      <Nav.Item
+        componentClass={Link}
+        key={nav.key}
+        to={nav.link}
+        icon={<Icon icon={nav.icon} />}
+      >
         {nav.name}
       </Nav.Item>
     ));
+  };
+
+  returnHome = () => {
+    navigate("/");
   };
 
   render() {
@@ -36,8 +47,10 @@ class Sidebar extends Component {
       <Sidenav className="sidebar">
         <Sidenav.Header>
           <div className="header-hrand">
-            <Icon icon="music" size="lg" style={{ verticalAlign: 0 }} />
-            <span style={{ marginLeft: 12 }}> Sync Band</span>
+            <img src={logo} alt="logo" width="50px" />
+            <span onClick={this.returnHome} style={{ marginLeft: 12 }}>
+              Sync Band
+            </span>
           </div>
         </Sidenav.Header>
         <Sidenav.Body>
