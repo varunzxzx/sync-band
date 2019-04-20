@@ -25,11 +25,20 @@ const navs = [
 ];
 
 class Sidebar extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      activeKey: null
+    };
+  }
+
   renderNavItems = () => {
     return navs.map(nav => (
       <Nav.Item
         componentClass={Link}
         key={nav.key}
+        eventKey={nav.key}
         to={nav.link}
         icon={<Icon icon={nav.icon} />}
       >
@@ -42,9 +51,20 @@ class Sidebar extends Component {
     navigate("/");
   };
 
+  onSelect = activeKey => {
+    this.setState({
+      activeKey
+    });
+  };
+
   render() {
+    const { activeKey } = this.state;
     return (
-      <Sidenav className="sidebar">
+      <Sidenav
+        onSelect={this.onSelect}
+        activeKey={activeKey}
+        className="sidebar"
+      >
         <Sidenav.Header>
           <div className="header-hrand">
             <img src={logo} alt="logo" width="50px" />
