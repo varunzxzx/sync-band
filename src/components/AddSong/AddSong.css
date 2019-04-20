@@ -1,0 +1,8 @@
+.add-song > div {
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.add-song .item {
+  margin-bottom: 30px;
+}
