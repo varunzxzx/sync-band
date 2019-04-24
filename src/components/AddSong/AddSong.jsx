@@ -12,6 +12,9 @@ import {
   Button
 } from "rsuite";
 import "./AddSong.css";
+import * as uuid from "uuid/v4";
+
+import { addSong } from "../../utils";
 
 class AddSong extends Component {
   constructor(props) {
@@ -25,6 +28,19 @@ class AddSong extends Component {
       lyrics: ""
     };
   }
+
+  onSubmit = () => {
+    const song = { ...this.state };
+    song.id = uuid();
+    addSong(song, function(err, msg) {
+      if (err) alert("Something went wrong while adding a song");
+      alert(msg);
+    });
+  };
+
+  onInputChange = (value, { target: { name } }) => {
+    this.setState({ [name]: value });
+  };
 
   handleChordsChange = (value, e) => {
     const chords = [...this.state.chords];
@@ -43,9 +59,9 @@ class AddSong extends Component {
 
   handleTranspose = e => {
     let { transpose } = this.state;
-    if (e === "-" && transpose !== 0) {
+    if (e === "-") {
       transpose--;
-    } else if (e === "+") {
+    } else {
       transpose++;
     }
     this.setState({ transpose });
@@ -59,7 +75,12 @@ class AddSong extends Component {
           <Col md={14} sm={24}>
             <div className="item">
               <h3>Title</h3>
-              <Input placeholder="Enter title" style={{ fontSize: "24px" }} />
+              <Input
+                name="title"
+                placeholder="Enter title"
+                style={{ fontSize: "24px" }}
+                onChange={this.onInputChange}
+              />
             </div>
             <div className="item">
               <h3>Lyrics</h3>
@@ -70,7 +91,9 @@ class AddSong extends Component {
                   height: "300px",
                   fontSize: "20px"
                 }}
+                name="lyrics"
                 placeholder="Enter lyrics"
+                onChange={this.onInputChange}
               />
             </div>
           </Col>
@@ -159,7 +182,7 @@ class AddSong extends Component {
             </div>
             <div className="item">
               <ButtonGroup justified size="lg">
-                <Button color="blue">
+                <Button onClick={this.onSubmit} color="blue">
                   <Icon icon="send" /> Submit
                 </Button>
                 <Button color="red">

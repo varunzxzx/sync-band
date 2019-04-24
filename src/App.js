@@ -4,11 +4,28 @@ import AddSong from "./components/AddSong/AddSong";
 import ListSong from "./components/ListSong/ListSong";
 import "rsuite/dist/styles/rsuite.min.css";
 import "./App.css";
+import { openDB } from "idb";
 
 import { Icon } from "rsuite";
 
 import Sidebar from "./components/Sidebar";
 import MainMenu from "./components/MainMenu";
+
+function syncDB() {
+  if (!("indexedDB" in window)) {
+    alert("This browser doesn't support IndexedDB");
+    return;
+  }
+
+  window.dbPromise = openDB("sync-band", 1, {
+    upgrade(upgradeDb) {
+      console.log("making a new object store");
+      if (!upgradeDb.objectStoreNames.contains("songs")) {
+        upgradeDb.createObjectStore("songs");
+      }
+    }
+  });
+}
 
 class App extends Component {
   constructor(props) {
@@ -16,6 +33,10 @@ class App extends Component {
     this.state = {
       expanded: true
     };
+  }
+
+  componentDidMount() {
+    syncDB();
   }
 
   toggleNav = () => {
