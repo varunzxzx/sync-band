@@ -19,14 +19,17 @@ import { addSong } from "../../utils";
 class AddSong extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
+    let song = {
       chords: [],
       offChords: [],
       transpose: 0,
       title: "",
       lyrics: ""
     };
+    if (props.song) {
+      song = props.song;
+    }
+    this.state = { ...song };
   }
 
   onSubmit = () => {
@@ -39,6 +42,7 @@ class AddSong extends Component {
   };
 
   onInputChange = (value, { target: { name } }) => {
+    value = value.replace(/\r?\n/g, "<br />");
     this.setState({ [name]: value });
   };
 

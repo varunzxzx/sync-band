@@ -1,0 +1,8 @@
+.rs-modal-full {
+  width: 100% !important;
+}
+
+.rs-modal-full .rs-modal-dialog {
+  margin-left: 35px !important;
+  margin-right: 35px !important;
+}

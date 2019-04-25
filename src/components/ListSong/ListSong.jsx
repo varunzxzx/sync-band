@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 
-import { Table } from "rsuite";
+import { Table, Modal } from "rsuite";
 
 import { fetchSongs } from "../../utils";
+
+import "./ListSong.css";
+import ViewSong from "../ViewSong/ViewSong";
 const { Column, Cell, HeaderCell } = Table;
 
 class ListSong extends Component {
@@ -11,9 +14,24 @@ class ListSong extends Component {
 
     this.state = {
       songs: [],
-      loading: true
+      loading: true,
+      selectedSong: null,
+      showModal: false
     };
   }
+
+  onModalHide = () => {
+    this.setState({
+      showModal: false
+    });
+  };
+
+  onSongClick = song => {
+    this.setState({
+      selectedSong: song,
+      showModal: true
+    });
+  };
 
   componentDidMount() {
     fetchSongs((err, songs) => {
@@ -31,19 +49,36 @@ class ListSong extends Component {
   }
 
   render() {
-    const { songs, loading } = this.state;
+    const { songs, loading, selectedSong } = this.state;
     if (loading) return <div>Loading...</div>;
     return (
-      <Table data={songs}>
-        <Column>
-          <HeaderCell>S. No</HeaderCell>
-          <Cell dataKey="id" />
-        </Column>
-        <Column>
-          <HeaderCell>Title</HeaderCell>
-          <Cell dataKey="title" />
-        </Column>
-      </Table>
+      <>
+        <Table data={songs} onRowClick={this.onSongClick}>
+          <Column>
+            <HeaderCell>S. No</HeaderCell>
+            <Cell dataKey="id" />
+          </Column>
+          <Column>
+            <HeaderCell>Title</HeaderCell>
+            <Cell dataKey="title" />
+          </Column>
+        </Table>
+        {selectedSong && (
+          <Modal
+            full
+            size="lg"
+            show={this.state.showModal}
+            onHide={this.onModalHide}
+          >
+            <Modal.Header>
+              <Modal.Title>{selectedSong.title}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <ViewSong selectedSong={selectedSong} />
+            </Modal.Body>
+          </Modal>
+        )}
+      </>
     );
   }
 }
