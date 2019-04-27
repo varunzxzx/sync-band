@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Router } from "@reach/router";
 import AddSong from "./components/AddSong/AddSong";
 import ListSong from "./components/ListSong/ListSong";
+import Room from "./components/Room/Room";
 import "rsuite/dist/styles/rsuite.min.css";
 import "./App.css";
 import { openDB } from "idb";
@@ -59,6 +60,7 @@ class App extends Component {
             <MainMenu path="/" />
             <AddSong path="/add-song" />
             <ListSong path="/list" />
+            <Room path="/room/:type" />
           </Router>
         </div>
       </div>

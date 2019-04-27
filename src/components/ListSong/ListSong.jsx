@@ -35,6 +35,12 @@ class ListSong extends Component {
   };
 
   onSongClick = song => {
+    if (this.props.viewOnly) {
+      return;
+    }
+    if (this.props.clickHandler) {
+      this.props.clickHandler(song);
+    }
     this.setState({
       selectedSong: song,
       showModal: true
@@ -54,6 +60,15 @@ class ListSong extends Component {
         loading: false
       });
     });
+  }
+
+  componentDidUpdate() {
+    if (this.props.song && this.props.song !== this.state.selectedSong) {
+      this.setState({
+        selectedSong: this.props.song,
+        showModal: true
+      });
+    }
   }
 
   render() {
@@ -85,9 +100,11 @@ class ListSong extends Component {
               {!editMode && <ViewSong selectedSong={selectedSong} />}
               {editMode && <AddSong song={selectedSong} />}
             </Modal.Body>
-            <Modal.Footer>
-              <Button onClick={this.changeMode}>Edit</Button>
-            </Modal.Footer>
+            {!this.props.viewOnly && (
+              <Modal.Footer>
+                <Button onClick={this.changeMode}>Edit</Button>
+              </Modal.Footer>
+            )}
           </Modal>
         )}
       </>
