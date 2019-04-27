@@ -76,7 +76,11 @@ io.on("connection", function(socket) {
   });
 });
 
-app.get("*", express.static(path.join(__dirname, "build")));
+app.use(express.static(path.join(__dirname, "build")));
+
+app.get("*", function(request, response) {
+  response.sendFile(path.resolve(__dirname, "build", "index.html"));
+});
 
 server.listen(8000);
 console.log("Server started!! at 8000");

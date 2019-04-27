@@ -6,23 +6,24 @@ function ViewSong(props) {
   return (
     <Grid fluid>
       <Row>
-        <Col md={14} sm={24}>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: selectedSong.lyrics
-            }}
-          />
-        </Col>
         <Col md={8} sm={24}>
           <h3>Chords</h3>
           {selectedSong.chords.map(i => (
             <div key={i}>{i}</div>
           ))}
-          <h3>Off Chords</h3>
+          {selectedSong.offChords.length && <h3>Off Chords</h3>}
           {selectedSong.offChords &&
             selectedSong.offChords.map(i => <div key={i}>{i}</div>)}
           <h3>Transpose</h3>
           {selectedSong.transpose}
+        </Col>
+        <Col md={14} sm={24}>
+          <h3>Lyrics</h3>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: selectedSong.lyrics
+            }}
+          />
         </Col>
       </Row>
     </Grid>
