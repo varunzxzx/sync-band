@@ -43,6 +43,15 @@ body {
   clear: both;
 }
 
-#main-app {
+#main-app,
+#container {
   width: 100%;
+}
+
+.main-menu {
+  flex-direction: column;
+}
+
+.main-menu > div {
+  margin: 40px;
 }

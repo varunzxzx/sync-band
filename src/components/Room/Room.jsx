@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { doesRoomExists, createRoom, changeSong } from "../../api";
+import { doesRoomExists, createRoom, changeSong, exitRoom } from "../../api";
 import { navigate } from "@reach/router";
 import ListSong from "../ListSong/ListSong";
+import { fetchSongs } from "../../utils";
 
 class Room extends Component {
   constructor(props) {
@@ -19,29 +20,39 @@ class Room extends Component {
     });
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     const type = this.props.type;
     let roomExists;
 
-    await doesRoomExists(this.changeSongHandler).then(data => {
-      roomExists = data.data;
-    });
-
-    if (type === "create") {
-      if (roomExists) {
-        alert("Room already exists!!");
-        navigate("/");
-      } else {
-        createRoom();
+    fetchSongs(async (err, songs) => {
+      if (err) {
+        return alert("Something went wrong while fetching songs");
       }
-    }
 
-    this.setState({ type });
+      await doesRoomExists(this.changeSongHandler, songs).then(data => {
+        roomExists = data.data;
+      });
+
+      if (type === "create") {
+        if (roomExists) {
+          alert("Room already exists!!");
+          navigate("/");
+        } else {
+          createRoom();
+        }
+      }
+
+      this.setState({ type });
+    });
   }
 
   clickHandler = song => {
     changeSong(song);
   };
+
+  componentWillUnmount() {
+    exitRoom();
+  }
 
   render() {
     const { type, song } = this.state;

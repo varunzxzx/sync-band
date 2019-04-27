@@ -15,6 +15,7 @@ import "./AddSong.css";
 import * as uuid from "uuid/v4";
 
 import { addSong, editSong } from "../../utils";
+import { navigate } from "@reach/router";
 
 let editMode = false;
 
@@ -50,6 +51,7 @@ class AddSong extends Component {
     addSong(song, function(err, msg) {
       if (err) alert("Something went wrong while adding a song");
       alert(msg);
+      navigate("/");
     });
   };
 

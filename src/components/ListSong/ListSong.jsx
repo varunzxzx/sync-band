@@ -81,7 +81,7 @@ class ListSong extends Component {
             <HeaderCell>S. No</HeaderCell>
             <Cell dataKey="sno" />
           </Column>
-          <Column>
+          <Column width={250}>
             <HeaderCell>Title</HeaderCell>
             <Cell dataKey="title" />
           </Column>

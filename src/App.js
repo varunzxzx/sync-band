@@ -34,7 +34,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      expanded: true
+      expanded: false
     };
   }
 
@@ -48,20 +48,24 @@ class App extends Component {
     const { expanded } = this.state;
     return (
       <div className="App">
-        {expanded && <Sidebar />}
-        <Icon
-          onClick={this.toggleNav}
-          className="menu-btn"
-          icon="bars"
-          size="2x"
-        />
-        <div id="main-app">
-          <Router>
-            <MainMenu path="/" />
-            <AddSong path="/add-song" />
-            <ListSong path="/list" />
-            <Room path="/room/:type" />
-          </Router>
+        {expanded && <Sidebar toggleNav={this.toggleNav} />}
+        <div id="container">
+          <div>
+            <Icon
+              onClick={this.toggleNav}
+              className="menu-btn"
+              icon="bars"
+              size="2x"
+            />
+          </div>
+          <div id="main-app">
+            <Router>
+              <MainMenu path="/" />
+              <AddSong path="/add-song" />
+              <ListSong path="/list" />
+              <Room path="/room/:type" />
+            </Router>
+          </div>
         </div>
       </div>
     );
