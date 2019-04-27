@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 
-import { Table, Modal } from "rsuite";
+import { Table, Modal, Button } from "rsuite";
 
 import { fetchSongs } from "../../utils";
 
 import "./ListSong.css";
 import ViewSong from "../ViewSong/ViewSong";
+import AddSong from "../AddSong/AddSong";
 const { Column, Cell, HeaderCell } = Table;
 
 class ListSong extends Component {
@@ -16,13 +17,20 @@ class ListSong extends Component {
       songs: [],
       loading: true,
       selectedSong: null,
-      showModal: false
+      showModal: false,
+      editMode: false
     };
   }
 
   onModalHide = () => {
     this.setState({
       showModal: false
+    });
+  };
+
+  changeMode = () => {
+    this.setState({
+      editMode: !this.state.editMode
     });
   };
 
@@ -39,7 +47,7 @@ class ListSong extends Component {
         return alert("Something went wrong while fetching songs");
       }
       const usongs = songs.map((song, i) => {
-        return { ...song, id: i + 1 };
+        return { ...song, sno: i + 1 };
       });
       this.setState({
         songs: usongs,
@@ -49,14 +57,14 @@ class ListSong extends Component {
   }
 
   render() {
-    const { songs, loading, selectedSong } = this.state;
+    const { songs, loading, selectedSong, editMode } = this.state;
     if (loading) return <div>Loading...</div>;
     return (
       <>
         <Table data={songs} onRowClick={this.onSongClick}>
           <Column>
             <HeaderCell>S. No</HeaderCell>
-            <Cell dataKey="id" />
+            <Cell dataKey="sno" />
           </Column>
           <Column>
             <HeaderCell>Title</HeaderCell>
@@ -74,8 +82,12 @@ class ListSong extends Component {
               <Modal.Title>{selectedSong.title}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <ViewSong selectedSong={selectedSong} />
+              {!editMode && <ViewSong selectedSong={selectedSong} />}
+              {editMode && <AddSong song={selectedSong} />}
             </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={this.changeMode}>Edit</Button>
+            </Modal.Footer>
           </Modal>
         )}
       </>

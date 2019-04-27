@@ -14,7 +14,9 @@ import {
 import "./AddSong.css";
 import * as uuid from "uuid/v4";
 
-import { addSong } from "../../utils";
+import { addSong, editSong } from "../../utils";
+
+let editMode = false;
 
 class AddSong extends Component {
   constructor(props) {
@@ -28,12 +30,22 @@ class AddSong extends Component {
     };
     if (props.song) {
       song = props.song;
+      song.lyrics = song.lyrics.replace(/<br \/>/g, "\r\n");
+      editMode = true;
     }
     this.state = { ...song };
   }
 
   onSubmit = () => {
     const song = { ...this.state };
+    song.lyrics = song.lyrics.replace(/\r?\n/g, "<br />");
+    if (editMode) {
+      delete song.sno;
+      return editSong(song, function(err, msg) {
+        if (err) alert("Something went wrong while updating a song");
+        alert(msg);
+      });
+    }
     song.id = uuid();
     addSong(song, function(err, msg) {
       if (err) alert("Something went wrong while adding a song");
@@ -42,7 +54,6 @@ class AddSong extends Component {
   };
 
   onInputChange = (value, { target: { name } }) => {
-    value = value.replace(/\r?\n/g, "<br />");
     this.setState({ [name]: value });
   };
 
@@ -84,6 +95,7 @@ class AddSong extends Component {
                 placeholder="Enter title"
                 style={{ fontSize: "24px" }}
                 onChange={this.onInputChange}
+                value={this.state.title}
               />
             </div>
             <div className="item">
@@ -98,6 +110,7 @@ class AddSong extends Component {
                 name="lyrics"
                 placeholder="Enter lyrics"
                 onChange={this.onInputChange}
+                value={this.state.lyrics}
               />
             </div>
           </Col>
