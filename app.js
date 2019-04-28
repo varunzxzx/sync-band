@@ -67,7 +67,7 @@ io.on("connection", function(socket) {
             songs[index] = clientSong;
           }
         });
-        obj[songs] = songs;
+        obj["songs"] = songs;
 
         const json = JSON.stringify(obj); //convert it back to json
         fs.writeFile("songs.json", json, "utf8", () => {}); // write it back

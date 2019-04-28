@@ -1,9 +1,17 @@
 import axios from "axios";
 
 export function syncSongs() {
-  axios.get("/sync-songs").then(res => {
+  axios.get("/sync-songs").then(async res => {
     const songs = res.data.songs.songs;
     if (songs.length) {
+      //clear collection
+      await window.dbPromise.then(db => {
+        var tx = db.transaction("songs", "readwrite");
+        var store = tx.objectStore("songs");
+        store.clear();
+        return tx.complete;
+      });
+
       songs.forEach(song => {
         window.dbPromise
           .then(function(db) {
@@ -19,7 +27,6 @@ export function syncSongs() {
             console.log(err);
           });
       });
-      window.location.href = "/";
     }
   });
 }

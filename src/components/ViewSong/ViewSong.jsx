@@ -11,9 +11,14 @@ function ViewSong(props) {
           {selectedSong.chords.map(i => (
             <div key={i}>{i}</div>
           ))}
-          {selectedSong.offChords.length && <h3>Off Chords</h3>}
-          {selectedSong.offChords &&
-            selectedSong.offChords.map(i => <div key={i}>{i}</div>)}
+          {selectedSong.offChords.length && (
+            <>
+              <h3>Off Chords</h3>
+              {selectedSong.offChords.map(i => (
+                <div key={i}>{i}</div>
+              ))}
+            </>
+          )}
           <h3>Transpose</h3>
           {selectedSong.transpose}
         </Col>

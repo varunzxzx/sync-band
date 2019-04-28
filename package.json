@@ -17,7 +17,7 @@
     "socket.io-client": "^2.2.0",
     "uuid": "^3.3.2"
   },
-  "proxy": "http://192.168.0.101:8000",
+  "proxy": "http://localhost:8000",
   "scripts": {
     "dev": "concurrently \"node app.js\" \"react-scripts start\"",
     "start": "node app.js",
