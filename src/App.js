@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { Router } from "@reach/router";
-import AddSong from "./components/AddSong/AddSong";
-import ListSong from "./components/ListSong/ListSong";
-import Room from "./components/Room/Room";
+import Loadable from "react-loadable";
 import "rsuite/dist/styles/rsuite.min.css";
 import "./App.css";
 import { openDB } from "idb";
@@ -11,6 +9,7 @@ import { Icon } from "rsuite";
 
 import Sidebar from "./components/Sidebar";
 import MainMenu from "./components/MainMenu";
+import Loading from "./components/Loading";
 
 function syncDB() {
   if (!("indexedDB" in window)) {
@@ -29,6 +28,21 @@ function syncDB() {
 }
 
 syncDB();
+
+const AsyncAddSong = Loadable({
+  loader: () => import("./components/AddSong/AddSong.jsx"),
+  loading: Loading
+});
+
+const AsyncListSong = Loadable({
+  loader: () => import("./components/ListSong/ListSong"),
+  loading: Loading
+});
+
+const AsyncRoom = Loadable({
+  loader: () => import("./components/Room/Room"),
+  loading: Loading
+});
 
 class App extends Component {
   constructor(props) {
@@ -61,9 +75,9 @@ class App extends Component {
           <div id="main-app">
             <Router>
               <MainMenu path="/" />
-              <AddSong path="/add-song" />
-              <ListSong path="/list" />
-              <Room path="/room/:type" />
+              <AsyncAddSong path="/add-song" />
+              <AsyncListSong path="/list" />
+              <AsyncRoom path="/room/:type" />
             </Router>
           </div>
         </div>

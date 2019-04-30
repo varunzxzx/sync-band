@@ -11,6 +11,7 @@
     "idb": "^4.0.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-loadable": "^5.5.0",
     "react-scripts": "2.1.8",
     "rsuite": "^3.8.3",
     "socket.io": "^2.2.0",
