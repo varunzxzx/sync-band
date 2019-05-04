@@ -1,7 +1,10 @@
 import axios from "axios";
 
 export function syncSongs() {
-  axios.get("/sync-songs").then(async res => {
+  const url = window.ip
+    ? window.ip
+    : "http://ec2-54-158-171-186.compute-1.amazonaws.com:8080";
+  axios.get(url + "/sync-songs").then(async res => {
     const songs = res.data.songs.songs;
     if (songs.length) {
       //clear collection
@@ -22,8 +25,10 @@ export function syncSongs() {
           })
           .then(function() {
             console.log("Song added successfully!");
+            window.location.reload();
           })
           .catch(err => {
+            alert("Something went wrong while syncing songs");
             console.log(err);
           });
       });

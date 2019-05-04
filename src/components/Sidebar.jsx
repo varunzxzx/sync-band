@@ -49,6 +49,7 @@ class Sidebar extends Component {
   };
 
   returnHome = () => {
+    this.props.toggleNav();
     navigate("/");
   };
 
@@ -60,6 +61,7 @@ class Sidebar extends Component {
   };
 
   sync = () => {
+    this.props.toggleNav();
     syncSongs();
   };
 

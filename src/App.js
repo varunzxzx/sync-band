@@ -70,6 +70,7 @@ class App extends Component {
       isOffline: true,
       ip
     });
+    window.ip = ip;
   };
 
   render() {

@@ -1,7 +1,12 @@
 import openSocket from "socket.io-client";
 import axios from "axios";
 import { navigate } from "@reach/router";
-const socket = openSocket("/");
+
+const url = window.ip
+  ? window.ip
+  : "http://ec2-54-158-171-186.compute-1.amazonaws.com:8080";
+
+const socket = openSocket(url);
 
 function doesRoomExists(changeSongHandler, songs) {
   socket.on("leave", function() {
@@ -15,7 +20,7 @@ function doesRoomExists(changeSongHandler, songs) {
 
   socket.emit("sync-songs", songs);
 
-  return axios.get("/does-room-exists");
+  return axios.get(url + "/does-room-exists");
 }
 
 function createRoom() {
