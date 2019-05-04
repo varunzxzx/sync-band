@@ -20,7 +20,7 @@ const navs = [
   {
     key: 3,
     name: "Settings",
-    link: "/setting",
+    link: "/settings",
     icon: "cogs"
   }
 ];

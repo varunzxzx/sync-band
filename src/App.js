@@ -44,11 +44,18 @@ const AsyncRoom = Loadable({
   loading: Loading
 });
 
+const AsyncSettings = Loadable({
+  loader: () => import("./components/Settings"),
+  loading: Loading
+});
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      expanded: false
+      expanded: false,
+      isOffline: false,
+      ip: ""
     };
   }
 
@@ -58,8 +65,15 @@ class App extends Component {
     });
   };
 
+  changeMode = ip => {
+    this.setState({
+      isOffline: true,
+      ip
+    });
+  };
+
   render() {
-    const { expanded } = this.state;
+    const { expanded, isOffline, ip } = this.state;
     return (
       <div className="App">
         {expanded && <Sidebar toggleNav={this.toggleNav} />}
@@ -78,6 +92,12 @@ class App extends Component {
               <AsyncAddSong path="/add-song" />
               <AsyncListSong path="/list" />
               <AsyncRoom path="/room/:type" />
+              <AsyncSettings
+                path="/settings"
+                ip={ip}
+                isOffline={isOffline}
+                changeMode={this.changeMode}
+              />
             </Router>
           </div>
         </div>

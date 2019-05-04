@@ -4,6 +4,7 @@ const app = express();
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
 const fs = require("fs");
+const cors = require("cors");
 
 let roomOwnerId = null;
 
@@ -12,6 +13,8 @@ function cleanRoom(socket) {
   roomOwnerId = null;
   socket.broadcast.emit("leave");
 }
+
+app.use(cors());
 
 app.get("/does-room-exists", (req, res) => {
   const data = roomOwnerId ? true : false;
