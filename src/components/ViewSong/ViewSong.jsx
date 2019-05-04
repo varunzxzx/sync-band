@@ -11,7 +11,7 @@ function ViewSong(props) {
           {selectedSong.chords.map(i => (
             <div key={i}>{i}</div>
           ))}
-          {selectedSong.offChords.length && (
+          {selectedSong.offChords.length !== 0 && (
             <>
               <h3>Off Chords</h3>
               {selectedSong.offChords.map(i => (
