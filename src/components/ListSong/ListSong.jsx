@@ -76,7 +76,7 @@ class ListSong extends Component {
     if (loading) return <div>Loading...</div>;
     return (
       <>
-        <Table data={songs} onRowClick={this.onSongClick}>
+        <Table height={500} data={songs} onRowClick={this.onSongClick}>
           <Column>
             <HeaderCell>S. No</HeaderCell>
             <Cell dataKey="sno" />

@@ -79,7 +79,7 @@ class App extends Component {
       <div className="App">
         {expanded && <Sidebar toggleNav={this.toggleNav} />}
         <div id="container">
-          <div>
+          <div style={{ backgroundColor: "#34C3FF" }}>
             <Icon
               onClick={this.toggleNav}
               className="menu-btn"
