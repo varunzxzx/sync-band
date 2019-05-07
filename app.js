@@ -9,7 +9,6 @@ const cors = require("cors");
 /* Require .env */
 const dotenv = require("dotenv");
 dotenv.config();
-dotenv.load();
 
 const PORT = parseInt(process.env.PORT) || 80;
 
