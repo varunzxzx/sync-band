@@ -12,7 +12,6 @@
     "http-proxy-middleware": "^0.19.1",
     "https": "^1.0.0",
     "idb": "^4.0.3",
-    "pm2": "^3.5.0",
     "promise-status-async": "^1.1.9",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
