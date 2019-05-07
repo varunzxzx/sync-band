@@ -29,8 +29,8 @@ class Room extends Component {
         return alert("Something went wrong while fetching songs");
       }
 
-      await doesRoomExists(this.changeSongHandler, songs).then(data => {
-        roomExists = data.data;
+      await doesRoomExists(this.changeSongHandler, songs).then(res => {
+        roomExists = res.data;
       });
 
       if (type === "create") {

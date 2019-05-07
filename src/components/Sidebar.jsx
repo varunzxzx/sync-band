@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Link, navigate } from "@reach/router";
 import { Sidenav, Nav, Icon } from "rsuite";
 import logo from "../logo.svg";
-import { syncSongs } from "../utils";
 
 const navs = [
   {
@@ -60,11 +59,6 @@ class Sidebar extends Component {
     this.props.toggleNav();
   };
 
-  sync = () => {
-    this.props.toggleNav();
-    syncSongs();
-  };
-
   render() {
     const { activeKey } = this.state;
     return (
@@ -82,17 +76,7 @@ class Sidebar extends Component {
           </div>
         </Sidenav.Header>
         <Sidenav.Body>
-          <Nav>
-            {this.renderNavItems()}
-            <Nav.Item
-              key={navs.length + 1}
-              eventKey={navs.length + 1}
-              icon={<Icon icon="refresh" />}
-              onClick={this.sync}
-            >
-              Sync
-            </Nav.Item>
-          </Nav>
+          <Nav>{this.renderNavItems()}</Nav>
         </Sidenav.Body>
       </Sidenav>
     );

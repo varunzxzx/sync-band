@@ -1,9 +1,9 @@
+const fs = require("fs");
 const express = require("express");
 const path = require("path");
 const app = express();
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
-const fs = require("fs");
 const cors = require("cors");
 
 let roomOwnerId = null;
@@ -19,17 +19,6 @@ app.use(cors());
 app.get("/does-room-exists", (req, res) => {
   const data = roomOwnerId ? true : false;
   return res.status(200).send(data);
-});
-
-app.get("/sync-songs", (req, res) => {
-  fs.readFile("songs.json", "utf8", (err, data) => {
-    if (err) {
-      console.log(err);
-    } else {
-      const obj = JSON.parse(data);
-      return res.status(200).json({ songs: obj });
-    }
-  });
 });
 
 io.on("connection", function(socket) {
@@ -71,7 +60,7 @@ io.on("connection", function(socket) {
           }
         });
         obj["songs"] = songs;
-
+        socket.emit("sync-songs", obj);
         const json = JSON.stringify(obj); //convert it back to json
         fs.writeFile("songs.json", json, "utf8", () => {}); // write it back
       }
