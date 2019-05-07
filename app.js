@@ -1,12 +1,17 @@
 const fs = require("fs");
-const key = fs.readFileSync("encryption/private.key");
-const cert = fs.readFileSync("encryption/server.crt");
 const express = require("express");
 const path = require("path");
 const app = express();
-const server = require("https").Server({ key, cert }, app);
+const server = require("http").Server(app);
 const io = require("socket.io")(server);
 const cors = require("cors");
+
+/* Require .env */
+const dotenv = require("dotenv");
+dotenv.config();
+dotenv.load();
+
+const PORT = parseInt(process.env.PORT) || 80;
 
 let roomOwnerId = null;
 
@@ -76,5 +81,5 @@ app.get("*", function(request, response) {
   response.sendFile(path.resolve(__dirname, "build", "index.html"));
 });
 
-server.listen(8080);
-console.log("Server started!! at 8080");
+server.listen(PORT);
+console.log("Server started!! at " + PORT);
