@@ -10,7 +10,8 @@ class Room extends Component {
 
     this.state = {
       type: "join",
-      song: null
+      song: null,
+      loading: true
     };
   }
 
@@ -31,6 +32,9 @@ class Room extends Component {
 
       await doesRoomExists(this.changeSongHandler, songs).then(res => {
         roomExists = res.data;
+        this.setState({
+          loading: false
+        });
       });
 
       if (type === "create") {
@@ -55,13 +59,18 @@ class Room extends Component {
   }
 
   render() {
-    const { type, song } = this.state;
+    const { type, song, loading } = this.state;
+    if (loading) {
+      return <div>Loading...</div>;
+    }
     return (
-      <ListSong
-        song={song}
-        clickHandler={this.clickHandler}
-        viewOnly={type !== "create" ? true : false}
-      />
+      !loading && (
+        <ListSong
+          song={song}
+          clickHandler={this.clickHandler}
+          viewOnly={type !== "create" ? true : false}
+        />
+      )
     );
   }
 }

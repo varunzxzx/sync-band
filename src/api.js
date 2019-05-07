@@ -1,6 +1,7 @@
 import openSocket from "socket.io-client";
 import axios from "axios";
 import { navigate } from "@reach/router";
+import { syncSongs } from "./utils";
 
 const url = window.ip
   ? window.ip
@@ -8,7 +9,17 @@ const url = window.ip
 
 const socket = openSocket(url);
 
+function sync(songs) {
+  socket.emit("sync-songs", songs);
+
+  socket.on("sync-songs", res => {
+    syncSongs(res.songs);
+  });
+}
+
 function doesRoomExists(changeSongHandler, songs) {
+  sync(songs);
+
   socket.on("leave", function() {
     alert("Room owner left the room.");
     navigate("/");
@@ -17,8 +28,6 @@ function doesRoomExists(changeSongHandler, songs) {
   socket.on("change-song", function(song) {
     changeSongHandler(song);
   });
-
-  socket.emit("sync-songs", songs);
 
   return axios.get(url + "/does-room-exists");
 }
