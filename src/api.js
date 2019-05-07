@@ -5,7 +5,7 @@ import { syncSongs } from "./utils";
 
 const url = window.ip
   ? window.ip
-  : "http://ec2-54-158-171-186.compute-1.amazonaws.com:8080";
+  : "https://ec2-54-158-171-186.compute-1.amazonaws.com:8080";
 
 const socket = openSocket(url);
 
