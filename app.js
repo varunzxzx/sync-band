@@ -1,8 +1,10 @@
 const fs = require("fs");
+const key = fs.readFileSync("encryption/private.key");
+const cert = fs.readFileSync("encryption/server.crt");
 const express = require("express");
 const path = require("path");
 const app = express();
-const server = require("http").Server(app);
+const server = require("https").Server({ key, cert }, app);
 const io = require("socket.io")(server);
 const cors = require("cors");
 
