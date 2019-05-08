@@ -3,9 +3,7 @@ import axios from "axios";
 import { navigate } from "@reach/router";
 import { syncSongs } from "./utils";
 
-const url = window.ip
-  ? window.ip
-  : "https://ec2-54-158-171-186.compute-1.amazonaws.com:8080";
+const url = window.ip ? window.ip : "https://sync-band.openode.io";
 
 const socket = openSocket(url);
 
