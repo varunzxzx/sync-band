@@ -1,5 +1,5 @@
 {
-  "name": "Sync Band",
+  "name": "Sync Band - We Help You Sync",
   "short_name": "Sync Band",
   "theme_color": "#34c3ff",
   "background_color": "#34c3ff",
@@ -52,6 +52,5 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ],
-  "splash_pages": null
+  ]
 }
