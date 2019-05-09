@@ -5,18 +5,24 @@ import { Sidenav, Nav, Icon } from "rsuite";
 const navs = [
   {
     key: 1,
+    name: "Home",
+    link: "/",
+    icon: "home"
+  },
+  {
+    key: 2,
     name: "Add Song",
     link: "/add-song",
     icon: "plus-square"
   },
   {
-    key: 2,
+    key: 3,
     name: "List Songs",
     link: "/list",
     icon: "pencil"
   },
   {
-    key: 3,
+    key: 4,
     name: "Settings",
     link: "/settings",
     icon: "cogs"
