@@ -10,7 +10,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const PORT = parseInt(process.env.PORT) || 80;
+const PORT = parseInt(process.env.NODE_PORT) || 80;
 
 let roomOwnerId = null;
 

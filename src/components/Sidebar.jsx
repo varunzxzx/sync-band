@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Link, navigate } from "@reach/router";
 import { Sidenav, Nav, Icon } from "rsuite";
-import logo from "../logo.svg";
 
 const navs = [
   {
@@ -69,7 +68,7 @@ class Sidebar extends Component {
       >
         <Sidenav.Header>
           <div className="header-hrand">
-            <img src={logo} alt="logo" width="50px" />
+            <img src="logo.png" alt="logo" width="50px" />
             <span onClick={this.returnHome} style={{ marginLeft: 12 }}>
               Sync Band
             </span>
