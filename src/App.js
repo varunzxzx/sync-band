@@ -55,7 +55,7 @@ class App extends Component {
     this.state = {
       expanded: false,
       isOffline: false,
-      ip: ""
+      ip: "https://"
     };
   }
 

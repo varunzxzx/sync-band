@@ -5,7 +5,7 @@ import { promiseStatus } from "promise-status-async";
 
 function ValidateIPaddress(ipaddress) {
   if (
-    /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(
+    /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?):(.*)$/.test(
       ipaddress
     )
   ) {
@@ -33,6 +33,9 @@ class Settings extends Component {
   };
 
   changeIP = ip => {
+    if (ip.indexOf("https://") !== 0) {
+      ip = "https://";
+    }
     this.setState({
       ip
     });
@@ -40,7 +43,7 @@ class Settings extends Component {
 
   onSubmit = () => {
     let { ip } = this.state;
-    if (!ValidateIPaddress(ip.split(":")[1].substr(2))) {
+    if (!ValidateIPaddress(ip.split("//")[1])) {
       return;
     }
     this.setState({
