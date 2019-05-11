@@ -7,17 +7,19 @@ const url = window.ip ? window.ip : "https://sync-band.openode.io";
 
 const socket = openSocket(url);
 
-function sync(songs) {
-  socket.emit("sync-songs", songs);
+function syncSongsWithServer(songs) {
+  axios.get(url.ip);
+  return new Promise((resolve, reject) => {
+    socket.emit("sync-songs", songs);
 
-  socket.on("sync-songs", res => {
-    syncSongs(res.songs);
+    socket.on("sync-songs", async res => {
+      await syncSongs(res.songs);
+      resolve();
+    });
   });
 }
 
 function doesRoomExists(changeSongHandler, songs) {
-  sync(songs);
-
   socket.on("leave", function() {
     alert("Room owner left the room.");
     navigate("/");
@@ -42,4 +44,10 @@ function exitRoom() {
   socket.emit("leave");
 }
 
-export { doesRoomExists, createRoom, changeSong, exitRoom };
+export {
+  doesRoomExists,
+  createRoom,
+  changeSong,
+  exitRoom,
+  syncSongsWithServer
+};

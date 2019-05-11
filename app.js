@@ -4,7 +4,6 @@ const path = require("path");
 const app = express();
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
-const cors = require("cors");
 
 /* Require .env */
 const dotenv = require("dotenv");
@@ -20,7 +19,14 @@ function cleanRoom(socket) {
   socket.broadcast.emit("leave");
 }
 
-app.use(cors());
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 
 app.get("/does-room-exists", (req, res) => {
   const data = roomOwnerId ? true : false;

@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { doesRoomExists, createRoom, changeSong, exitRoom } from "../../api";
+import {
+  doesRoomExists,
+  createRoom,
+  changeSong,
+  exitRoom,
+  syncSongsWithServer
+} from "../../api";
 import { navigate } from "@reach/router";
 import ListSong from "../ListSong/ListSong";
 import { fetchSongs } from "../../utils";
@@ -25,15 +31,17 @@ class Room extends Component {
     const type = this.props.type;
     let roomExists;
 
-    fetchSongs(async (err, songs) => {
+    fetchSongs((err, songs) => {
       if (err) {
         return alert("Something went wrong while fetching songs");
       }
 
-      await doesRoomExists(this.changeSongHandler, songs).then(res => {
-        roomExists = res.data;
-        this.setState({
-          loading: false
+      syncSongsWithServer(songs).then(() => {
+        doesRoomExists(this.changeSongHandler, songs).then(res => {
+          roomExists = res.data;
+          this.setState({
+            loading: false
+          });
         });
       });
 
