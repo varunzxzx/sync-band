@@ -8,7 +8,6 @@ const url = window.ip ? window.ip : "https://sync-band.openode.io";
 const socket = openSocket(url);
 
 function syncSongsWithServer(songs) {
-  axios.get(url.ip);
   return new Promise((resolve, reject) => {
     socket.emit("sync-songs", songs);
 
