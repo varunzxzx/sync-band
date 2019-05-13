@@ -4,7 +4,8 @@ import {
   createRoom,
   changeSong,
   exitRoom,
-  syncSongsWithServer
+  syncSongsWithServer,
+  getUserCount
 } from "../../api";
 import { navigate } from "@reach/router";
 import ListSong from "../ListSong/ListSong";
@@ -27,34 +28,37 @@ class Room extends Component {
     });
   };
 
+  changeUserCount = user_count => {
+    this.props.changeUserCount(user_count);
+  };
+
   componentDidMount() {
     const type = this.props.type;
     let roomExists;
 
-    fetchSongs((err, songs) => {
+    fetchSongs(async (err, songs) => {
       if (err) {
         return alert("Something went wrong while fetching songs");
       }
 
-      syncSongsWithServer(songs).then(() => {
-        doesRoomExists(this.changeSongHandler, songs).then(res => {
+      syncSongsWithServer(songs, this.changeUserCount).then(() => {
+        doesRoomExists(this.changeSongHandler).then(res => {
           roomExists = res.data;
+          if (type === "create") {
+            if (roomExists) {
+              alert("Room already exists!!");
+              navigate("/");
+            } else {
+              createRoom();
+            }
+          }
+          getUserCount();
           this.setState({
-            loading: false
+            loading: false,
+            type
           });
         });
       });
-
-      if (type === "create") {
-        if (roomExists) {
-          alert("Room already exists!!");
-          navigate("/");
-        } else {
-          createRoom();
-        }
-      }
-
-      this.setState({ type });
     });
   }
 

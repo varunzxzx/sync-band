@@ -7,7 +7,15 @@ const url = window.ip ? window.ip : "https://sync-band.openode.io";
 
 const socket = openSocket(url);
 
-function syncSongsWithServer(songs) {
+function getUserCount() {
+  socket.emit("user_count");
+}
+
+function syncSongsWithServer(songs, changeUserCount) {
+  socket.on("user_count", function(user_count) {
+    changeUserCount(user_count);
+  });
+
   return new Promise((resolve, reject) => {
     socket.emit("sync-songs", songs);
 
@@ -18,7 +26,7 @@ function syncSongsWithServer(songs) {
   });
 }
 
-function doesRoomExists(changeSongHandler, songs) {
+function doesRoomExists(changeSongHandler) {
   socket.on("leave", function() {
     alert("Room owner left the room.");
     navigate("/");
@@ -48,5 +56,6 @@ export {
   createRoom,
   changeSong,
   exitRoom,
-  syncSongsWithServer
+  syncSongsWithServer,
+  getUserCount
 };

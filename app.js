@@ -4,6 +4,7 @@ const path = require("path");
 const app = express();
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
+const cors = require("cors");
 
 /* Require .env */
 const dotenv = require("dotenv");
@@ -12,6 +13,7 @@ dotenv.config();
 const PORT = parseInt(process.env.NODE_PORT) || 80;
 
 let roomOwnerId = null;
+let user_count = 0;
 
 function cleanRoom(socket) {
   console.log("Room owner left");
@@ -19,14 +21,11 @@ function cleanRoom(socket) {
   socket.broadcast.emit("leave");
 }
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
+function changeUserCount(socket) {
+  io.emit("user_count", user_count);
+}
+
+app.use(cors());
 
 app.get("/does-room-exists", (req, res) => {
   const data = roomOwnerId ? true : false;
@@ -34,6 +33,11 @@ app.get("/does-room-exists", (req, res) => {
 });
 
 io.on("connection", function(socket) {
+  socket.on("user_count", function() {
+    user_count++;
+    changeUserCount(socket);
+  });
+
   socket.on("create-room", function() {
     roomOwnerId = socket.id;
     console.log("Room owner added", socket.id);
@@ -43,13 +47,20 @@ io.on("connection", function(socket) {
     socket.broadcast.emit("change-song", song);
   });
 
+  // If user leaves intentionally
   socket.on("leave", function() {
+    user_count--;
+    changeUserCount(socket);
+
     if (socket.id === roomOwnerId) {
       cleanRoom(socket);
     }
   });
-
+  // else
   socket.on("disconnect", function() {
+    user_count--;
+    changeUserCount(socket);
+
     if (socket.id === roomOwnerId) {
       cleanRoom(socket);
     }

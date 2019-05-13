@@ -57,3 +57,13 @@ body {
 .main-menu > div {
   margin: 40px;
 }
+
+#user_count {
+  float: right;
+  margin-right: 20px;
+  font-weight: bold;
+  margin-top: 20px;
+  letter-spacing: 0.1em;
+  color: white;
+  font-size: 1.1em;
+}

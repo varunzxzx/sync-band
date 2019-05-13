@@ -55,7 +55,8 @@ class App extends Component {
     this.state = {
       expanded: false,
       isOffline: false,
-      ip: "https://"
+      ip: "https://",
+      user_count: 0
     };
   }
 
@@ -73,8 +74,12 @@ class App extends Component {
     window.ip = ip;
   };
 
+  changeUserCount = user_count => {
+    this.setState({ user_count });
+  };
+
   render() {
-    const { expanded, isOffline, ip } = this.state;
+    const { expanded, isOffline, ip, user_count } = this.state;
     return (
       <div className="App">
         {expanded && <Sidebar toggleNav={this.toggleNav} />}
@@ -86,13 +91,19 @@ class App extends Component {
               icon="bars"
               size="2x"
             />
+            {window.location.pathname.indexOf("room") !== -1 && (
+              <span id="user_count">User Count: {user_count}</span>
+            )}
           </div>
           <div id="main-app">
             <Router>
               <MainMenu path="/" />
               <AsyncAddSong path="/add-song" />
               <AsyncListSong path="/list" />
-              <AsyncRoom path="/room/:type" />
+              <AsyncRoom
+                path="/room/:type"
+                changeUserCount={this.changeUserCount}
+              />
               <AsyncSettings
                 path="/settings"
                 ip={ip}
