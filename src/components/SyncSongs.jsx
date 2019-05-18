@@ -16,7 +16,7 @@ class SyncSongs extends Component {
 
   componentDidMount() {
     axios
-      .get(window.ip + "/sync-songs")
+      .get("/sync-songs")
       .then(res => {
         return syncSongs(res.data.songs);
       })
