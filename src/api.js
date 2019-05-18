@@ -57,5 +57,6 @@ export {
   changeSong,
   exitRoom,
   syncSongsWithServer,
-  getUserCount
+  getUserCount,
+  url
 };

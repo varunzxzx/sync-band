@@ -3,6 +3,7 @@ import { Modal, Button } from "rsuite";
 import Loading from "./Loading";
 import { syncSongs } from "../utils";
 import axios from "axios";
+import { url } from "../api";
 
 class SyncSongs extends Component {
   constructor(props) {
@@ -16,7 +17,7 @@ class SyncSongs extends Component {
 
   componentDidMount() {
     axios
-      .get("/sync-songs")
+      .get(url + "/sync-songs")
       .then(res => {
         return syncSongs(res.data.songs);
       })
