@@ -7,6 +7,7 @@ import { fetchSongs } from "../../utils";
 import "./ListSong.css";
 import ViewSong from "../ViewSong/ViewSong";
 import AddSong from "../AddSong/AddSong";
+import Loading from "../Loading";
 const { Column, Cell, HeaderCell } = Table;
 
 class ListSong extends Component {
@@ -52,11 +53,11 @@ class ListSong extends Component {
       if (err) {
         return alert("Something went wrong while fetching songs");
       }
-      const usongs = songs.map((song, i) => {
+      const songsWithIndex = songs.map((song, i) => {
         return { ...song, sno: i + 1 };
       });
       this.setState({
-        songs: usongs,
+        songs: songsWithIndex,
         loading: false
       });
     });
@@ -73,7 +74,7 @@ class ListSong extends Component {
 
   render() {
     const { songs, loading, selectedSong, editMode } = this.state;
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <Loading />;
     return (
       <>
         <Table height={550} data={songs} onRowClick={this.onSongClick}>

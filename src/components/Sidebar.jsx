@@ -23,6 +23,18 @@ const navs = [
   },
   {
     key: 4,
+    name: "Create Schedule",
+    link: "/create-schedule",
+    icon: "list-ul"
+  },
+  {
+    key: 5,
+    name: "Sync Songs",
+    link: "/sync-songs",
+    icon: "refresh"
+  },
+  {
+    key: 6,
     name: "Settings",
     link: "/settings",
     icon: "cogs"

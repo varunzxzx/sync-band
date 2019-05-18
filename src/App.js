@@ -49,6 +49,16 @@ const AsyncSettings = Loadable({
   loading: Loading
 });
 
+const AsyncCreateSchedule = Loadable({
+  loader: () => import("./components/CreateSchedule/CreateSchedule"),
+  loading: Loading
+});
+
+const AsyncSyncSongs = Loadable({
+  loader: () => import("./components/SyncSongs"),
+  loading: Loading
+});
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -110,6 +120,8 @@ class App extends Component {
                 isOffline={isOffline}
                 changeMode={this.changeMode}
               />
+              <AsyncCreateSchedule path="create-schedule" />
+              <AsyncSyncSongs path="sync-songs" />
             </Router>
           </div>
         </div>

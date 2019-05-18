@@ -32,6 +32,21 @@ app.get("/does-room-exists", (req, res) => {
   return res.status(200).send(data);
 });
 
+app.get("/sync-songs", (req, res) => {
+  fs.readFile("songs.json", "utf8", (err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      const obj = JSON.parse(data); //now it an object
+
+      const { songs } = obj;
+      return res.status(200).json({
+        songs
+      });
+    }
+  });
+});
+
 io.on("connection", function(socket) {
   socket.on("user_count", function() {
     user_count++;
