@@ -1,7 +1,14 @@
 export function syncSongs(songs) {
   if (songs.length) {
-    return new Promise((res, rej) => {
+    return new Promise(async (res, rej) => {
       const promises = [];
+      // clear store before adding to prevent updating
+      await window.dbPromise.then(function(db) {
+        var tx = db.transaction("songs", "readwrite");
+        var store = tx.objectStore("songs");
+        store.clear();
+        return tx.complete;
+      });
       songs.forEach(async song => {
         await window.dbPromise
           .then(function(db) {
