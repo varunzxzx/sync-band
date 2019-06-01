@@ -122,7 +122,13 @@ io.on("connection", function(socket) {
           if (index === -1) {
             songs.push(clientSong);
           } else {
-            songs[index] = clientSong;
+            if (
+              clientSong.lyrics &&
+              clientSong.title &&
+              clientSong.chords.length
+            ) {
+              songs[index] = clientSong;
+            }
           }
         });
         obj["songs"] = songs;

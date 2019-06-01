@@ -39,6 +39,10 @@ class AddSong extends Component {
 
   onSubmit = () => {
     const song = { ...this.state };
+    if (!song.lyrics || !song.title || !song.chords.length) {
+      alert("Some fields are missing!!");
+      return;
+    }
     song.lyrics = song.lyrics.replace(/\r?\n/g, "<br />");
     if (editMode) {
       delete song.sno;
@@ -56,7 +60,7 @@ class AddSong extends Component {
   };
 
   onInputChange = (value, { target: { name } }) => {
-    this.setState({ [name]: value });
+    this.setState({ [name]: value.trim() });
   };
 
   handleChordsChange = (value, e) => {
