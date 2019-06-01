@@ -49,6 +49,7 @@ class AddSong extends Component {
       return editSong(song, function(err, msg) {
         if (err) alert("Something went wrong while updating a song");
         alert(msg);
+        window.location.reload();
       });
     }
     song.id = uuid();
