@@ -10,6 +10,7 @@ import {
 import { navigate } from "@reach/router";
 import ListSong from "../ListSong/ListSong";
 import { fetchSongs } from "../../utils";
+import Loading from "../Loading";
 
 class Room extends Component {
   constructor(props) {
@@ -73,7 +74,7 @@ class Room extends Component {
   render() {
     const { type, song, loading } = this.state;
     if (loading) {
-      return <div>Loading...</div>;
+      return <Loading />;
     }
     return (
       !loading && (
