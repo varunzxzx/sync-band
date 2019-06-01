@@ -52,11 +52,11 @@ function exitRoom() {
 }
 
 function addSchedule(data) {
-  return axios.post("/schedule", data);
+  return axios.post(url + "/schedule", data);
 }
 
 function getSchedule() {
-  return axios.get("/schedule");
+  return axios.get(url + "/schedule");
 }
 
 export {

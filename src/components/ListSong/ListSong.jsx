@@ -37,10 +37,6 @@ class ListSong extends Component {
     let { songs, schedule } = this.state;
     let filteredSongs;
     if (view !== "all") {
-      if (!schedule.length) {
-        alert("No schedule found");
-        return;
-      }
       filteredSongs = songs
         .filter(song => schedule.indexOf(song.id) !== -1)
         .map((song, i) => {
