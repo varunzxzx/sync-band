@@ -33,7 +33,7 @@ class SyncSongs extends Component {
     const { loading, showModal } = this.state;
     if (loading) return <Loading message="Syncing songs for you..." />;
     return (
-      <Modal show={showModal} backdrop>
+      <Modal show={showModal} backdrop full>
         <Modal.Body>Songs successfully synced!!</Modal.Body>
         <Modal.Footer>
           <Button href="/list">OK</Button>
