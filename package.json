@@ -24,7 +24,7 @@
   },
   "proxy": "http://localhost:8080",
   "scripts": {
-    "dev": "concurrently \"node app.js\" \"react-scripts start\"",
+    "dev": "concurrently \"nodemon --ignore src/ app.js\" \"react-scripts start\"",
     "start": "node app.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
