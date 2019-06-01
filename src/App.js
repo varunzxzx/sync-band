@@ -102,7 +102,9 @@ class App extends Component {
               size="2x"
             />
             {window.location.pathname.indexOf("room") !== -1 && (
-              <span id="user_count">User Count: {user_count}</span>
+              <span id="user_count">
+                User Count: {user_count <= 0 ? 0 : user_count}
+              </span>
             )}
           </div>
           <div id="main-app">

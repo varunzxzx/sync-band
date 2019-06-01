@@ -37,6 +37,7 @@ class ListSong extends Component {
     let { songs, schedule } = this.state;
     let filteredSongs;
     if (view !== "all") {
+      if (!schedule.length) return;
       filteredSongs = songs
         .filter(song => schedule.indexOf(song.id) !== -1)
         .map((song, i) => {
@@ -78,7 +79,13 @@ class ListSong extends Component {
       const songsWithIndex = songs.map((song, i) => {
         return { ...song, sno: i + 1 };
       });
-      const { data: schedule } = await getSchedule();
+      let schedule = [];
+      try {
+        const res = await getSchedule();
+        schedule = res.data;
+      } catch {
+        // do nothing
+      }
       this.setState({
         songs: songsWithIndex,
         filteredSongs: songsWithIndex,
