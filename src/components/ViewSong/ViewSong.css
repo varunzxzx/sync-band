@@ -1,0 +1,19 @@
+.chords {
+  display: inline-block;
+  font-weight: bold;
+  padding: 5px;
+  font-size: 1.2em;
+}
+
+.transpose {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.lyrics {
+  font-size: 1.4em;
+}
+
+.view-song h3 {
+  text-decoration: underline;
+}
