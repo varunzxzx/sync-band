@@ -42,7 +42,7 @@ class Room extends Component {
       }
 
       syncSongsWithServer(songs, this.changeUserCount).then(() => {
-        doesRoomExists(this.changeSongHandler).then(res => {
+        doesRoomExists(this.changeSongHandler).then(async res => {
           roomExists = res.data;
           if (type === "create") {
             if (roomExists) {

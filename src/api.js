@@ -51,6 +51,14 @@ function exitRoom() {
   socket.emit("leave");
 }
 
+function addSchedule(data) {
+  return axios.post("/schedule", data);
+}
+
+function getSchedule() {
+  return axios.get("/schedule");
+}
+
 export {
   doesRoomExists,
   createRoom,
@@ -58,5 +66,7 @@ export {
   exitRoom,
   syncSongsWithServer,
   getUserCount,
-  url
+  url,
+  addSchedule,
+  getSchedule
 };

@@ -204,7 +204,7 @@ class AddSong extends Component {
                 <Button onClick={this.onSubmit} color="blue">
                   <Icon icon="send" /> Submit
                 </Button>
-                <Button color="red">
+                <Button onClick={() => navigate("/")} color="red">
                   <Icon icon="close" /> Cancel
                 </Button>
               </ButtonGroup>

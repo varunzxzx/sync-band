@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { Table, Modal, Button } from "rsuite";
+import { Table, Modal, Button, ButtonGroup } from "rsuite";
 
 import { fetchSongs } from "../../utils";
 
@@ -8,6 +8,7 @@ import "./ListSong.css";
 import ViewSong from "../ViewSong/ViewSong";
 import AddSong from "../AddSong/AddSong";
 import Loading from "../Loading";
+import { getSchedule } from "../../api";
 const { Column, Cell, HeaderCell } = Table;
 
 class ListSong extends Component {
@@ -16,10 +17,13 @@ class ListSong extends Component {
 
     this.state = {
       songs: [],
+      filteredSongs: [],
       loading: true,
       selectedSong: null,
       showModal: false,
-      editMode: false
+      editMode: false,
+      schedule: [],
+      view: "all"
     };
   }
 
@@ -27,6 +31,28 @@ class ListSong extends Component {
     this.setState({
       showModal: false
     });
+  };
+
+  changeView = view => {
+    let { songs, schedule } = this.state;
+    let filteredSongs;
+    if (view !== "all") {
+      if (!schedule.length) {
+        alert("No schedule found");
+        return;
+      }
+      filteredSongs = songs
+        .filter(song => schedule.indexOf(song.id) !== -1)
+        .map((song, i) => {
+          return { ...song, sno: i + 1 };
+        });
+      console.log(filteredSongs);
+      view = "schedule";
+    } else {
+      filteredSongs = songs;
+      view = "all";
+    }
+    this.setState({ filteredSongs, view });
   };
 
   changeMode = () => {
@@ -49,16 +75,19 @@ class ListSong extends Component {
   };
 
   componentDidMount() {
-    fetchSongs((err, songs) => {
+    fetchSongs(async (err, songs) => {
       if (err) {
         return alert("Something went wrong while fetching songs");
       }
       const songsWithIndex = songs.map((song, i) => {
         return { ...song, sno: i + 1 };
       });
+      const { data: schedule } = await getSchedule();
       this.setState({
         songs: songsWithIndex,
-        loading: false
+        filteredSongs: songsWithIndex,
+        loading: false,
+        schedule
       });
     });
   }
@@ -73,11 +102,25 @@ class ListSong extends Component {
   }
 
   render() {
-    const { songs, loading, selectedSong, editMode } = this.state;
+    const { filteredSongs, loading, selectedSong, editMode, view } = this.state;
     if (loading) return <Loading />;
     return (
       <>
-        <Table height={550} data={songs} onRowClick={this.onSongClick}>
+        <ButtonGroup justified>
+          <Button
+            appearance={view === "all" ? "ghost" : "default"}
+            onClick={() => this.changeView("all")}
+          >
+            All
+          </Button>
+          <Button
+            appearance={view === "schedule" ? "ghost" : "default"}
+            onClick={() => this.changeView("schedule")}
+          >
+            Schedule
+          </Button>
+        </ButtonGroup>
+        <Table height={550} data={filteredSongs} onRowClick={this.onSongClick}>
           <Column>
             <HeaderCell>S. No</HeaderCell>
             <Cell dataKey="sno" />

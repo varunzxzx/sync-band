@@ -1,7 +1,10 @@
 import React, { Component } from "react";
-import { Table } from "rsuite";
+import { Table, ButtonGroup, Button, Icon } from "rsuite";
 import { fetchSongs } from "../../utils";
 import Loading from "../Loading";
+import { navigate } from "@reach/router";
+
+import { addSchedule } from "../../api";
 
 const { Column, Cell, HeaderCell } = Table;
 
@@ -14,6 +17,20 @@ class CreateSchedule extends Component {
       loading: true
     };
   }
+
+  onSubmit = () => {
+    if (this.state.selectedSongs.length) {
+      addSchedule(this.state.selectedSongs)
+        .then(res => {
+          alert("Schedule saved successfully!");
+          navigate("/");
+        })
+        .catch(err => alert(err));
+    } else {
+      alert("No song selected");
+    }
+  };
+
   componentDidMount() {
     fetchSongs((err, songs) => {
       if (err) {
@@ -49,11 +66,11 @@ class CreateSchedule extends Component {
     return (
       <div>
         <Table height={500} data={songs}>
-          <Column>
+          <Column width={50}>
             <HeaderCell>S. No</HeaderCell>
             <Cell dataKey="sno" />
           </Column>
-          <Column width={400}>
+          <Column width={250}>
             <HeaderCell>Title</HeaderCell>
             <Cell dataKey="title" />
           </Column>
@@ -71,6 +88,14 @@ class CreateSchedule extends Component {
             </Cell>
           </Column>
         </Table>
+        <ButtonGroup justified size="lg">
+          <Button onClick={this.onSubmit} color="blue">
+            <Icon icon="send" /> Submit
+          </Button>
+          <Button onClick={() => navigate("/")} color="red">
+            <Icon icon="close" /> Cancel
+          </Button>
+        </ButtonGroup>
       </div>
     );
   }

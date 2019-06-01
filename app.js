@@ -5,10 +5,17 @@ const app = express();
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
 const cors = require("cors");
+const bodyParser = require("body-parser");
 
 /* Require .env */
 const dotenv = require("dotenv");
 dotenv.config();
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// parse application/json
+app.use(bodyParser.json());
 
 const PORT = parseInt(process.env.NODE_PORT) || 80;
 
@@ -26,6 +33,27 @@ function changeUserCount(socket) {
 }
 
 app.use(cors());
+
+app.post("/schedule", (req, res) => {
+  fs.writeFile("schedule.json", JSON.stringify(req.body), "utf8", err => {
+    if (err)
+      return res
+        .status(400)
+        .json({ success: false, message: "Something went wrong!" });
+    return res.status(200).json(req.body);
+  }); // write it back
+});
+
+app.get("/schedule", (req, res) => {
+  fs.readFile("schedule.json", "utf8", (err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      const obj = JSON.parse(data); //now it an object
+      return res.status(200).json(obj);
+    }
+  });
+});
 
 app.get("/does-room-exists", (req, res) => {
   const data = roomOwnerId ? true : false;
